@@ -1,0 +1,22 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/index.js",
+      "env": {
+        "JWT_SECRET": "ipfsSecretKey",
+        "MONGO_URL": "mongodb+srv://jake:4Hy3feKuZKf1gnqe@cluster0.kgszi.mongodb.net/ipfsdb?retryWrites=true&w=majority",
+        "PORT": "3000"
+      }
+    }
+  ]
+}
