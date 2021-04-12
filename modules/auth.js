@@ -21,12 +21,13 @@ passport.use(
   })
 );
 
-module.exports.isJWTAutheticated = async (ctx, next) => {
+module.exports.isJWTAuthenticated = async (ctx, next) => {
   return passport.authenticate("jwt", async (err, user) => {
     if (user) {
       ctx.state.user = user;
       return next();
     }
+
     ctx.status = 403;
   })(ctx, next);
 };
