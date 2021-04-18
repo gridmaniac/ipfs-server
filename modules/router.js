@@ -13,6 +13,14 @@ const File = require("../controllers/file");
 router.post("/files/upload", File.UploadFile);
 
 const Idea = require("../controllers/idea");
-router.get("/ideas", isJWTAuthenticated, Idea.GetIdeas);
+router.get("/user/ideas", isJWTAuthenticated, Idea.GetUserIdeas);
+router.get("/ideas", isJWTAuthenticated, Idea.GetAllIdeas);
+router.get("/ideas/:id", isJWTAuthenticated, Idea.GetById);
+router.get("/category/:id/ideas", isJWTAuthenticated, Idea.GetByCategory);
+router.post("/ideas", isJWTAuthenticated, Idea.CreateIdea);
+router.post("/ideas/:id", isJWTAuthenticated, Idea.UpdateIdea);
+
+const Category = require("../controllers/category");
+router.get("/categories", isJWTAuthenticated, Category.GetCategories);
 
 module.exports = router;

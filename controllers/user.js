@@ -78,7 +78,7 @@ module.exports.RegisterAsInvestor = async (ctx) => {
 
 module.exports.RegisterAsInventor = async (ctx) => {
   try {
-    const { firstName, lastName, email, password, idea } = ctx.request.body;
+    const { firstName, lastName, email, password } = ctx.request.body;
 
     const count = await User.count({ email });
     if (count > 0) throw new Error("Email is already taken");
@@ -94,13 +94,6 @@ module.exports.RegisterAsInventor = async (ctx) => {
     });
 
     await user.save();
-
-    const x = new Idea({
-      user: user.id,
-      ...idea,
-    });
-
-    await x.save();
 
     const payload = {
       id: user.id,

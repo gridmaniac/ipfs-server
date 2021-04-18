@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const schema = new mongoose.Schema({
+const schema = new Schema({
   user: {
     type: String,
-    required: true,
+    ref: "User",
+    index: true,
+  },
+  category: {
+    type: String,
+    ref: "Category",
     index: true,
   },
   title: {
@@ -21,6 +27,15 @@ const schema = new mongoose.Schema({
     required: true,
     index: true,
   },
+  isPublished: {
+    type: Boolean,
+    default: false,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  image: String,
   files: [
     {
       name: String,
