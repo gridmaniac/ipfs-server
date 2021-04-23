@@ -23,8 +23,28 @@ module.exports.GetAllIdeas = async (ctx) => {
 
 module.exports.GetByCategory = async (ctx) => {
   try {
-    const { category } = ctx.request.params;
-    const ideas = await Idea.find({ category });
+    const { id } = ctx.request.params;
+    const { search } = ctx.request.body;
+
+    const query = {
+      category: id,
+      isPublished: true,
+    };
+
+    let searchQuery = {};
+    if (search)
+      searchQuery = {
+        $or: [
+          { title: { $regex: ".*" + search + ".*", $options: "i" } },
+          { profit: { $regex: ".*" + search + ".*", $options: "i" } },
+          { details: { $regex: ".*" + search + ".*", $options: "i" } },
+        ],
+      };
+
+    const ideas = await Idea.find({
+      ...query,
+      ...searchQuery,
+    });
     ctx.body = bodyData(ideas);
   } catch (e) {
     ctx.body = bodyError(e.message);

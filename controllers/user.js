@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const Idea = require("../models/idea");
 const { bodyData, bodyError } = require("../types");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
@@ -110,6 +109,16 @@ module.exports.GetProfile = async (ctx) => {
   try {
     const { user } = ctx.state;
     ctx.body = bodyData(user);
+  } catch (e) {
+    ctx.body = bodyError(e.message);
+  }
+};
+
+module.exports.GetInvestorById = async (ctx) => {
+  try {
+    const { id } = ctx.request.params;
+    const investor = await User.findOne({ _id: id });
+    ctx.body = bodyData(investor);
   } catch (e) {
     ctx.body = bodyError(e.message);
   }

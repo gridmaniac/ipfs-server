@@ -11,6 +11,7 @@ const schema = new Schema({
     type: String,
     ref: "Category",
     index: true,
+    required: true,
   },
   title: {
     type: String,
