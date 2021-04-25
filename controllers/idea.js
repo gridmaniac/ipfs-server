@@ -1,4 +1,6 @@
 const Idea = require("../models/idea");
+const FollowUp = require("../models/follow-up");
+const Message = require("../models/message");
 const { bodyData, bodyError } = require("../types");
 
 module.exports.GetUserIdeas = async (ctx) => {
@@ -83,9 +85,35 @@ module.exports.UpdateIdea = async (ctx) => {
     const { user } = ctx.state;
     const { id } = ctx.request.params;
 
-    await Idea.update({ _id: id, user: user.id }, ctx.request.body);
+    await Idea.updateOne({ _id: id, user: user.id }, ctx.request.body);
 
     ctx.body = bodyData({});
+  } catch (e) {
+    ctx.body = bodyError(e.message);
+  }
+};
+
+module.exports.GetInteractables = async (ctx) => {
+  try {
+    const { user } = ctx.state;
+    const { id } = ctx.request.params;
+
+    const followUp = await FollowUp.findOne({
+      investor: user._id,
+      idea: id,
+    });
+
+    let messagesCount = 0;
+
+    if (followUp)
+      messagesCount = await Message.count({ followUp: followUp._id });
+
+    const data = {
+      isFollowedUp: !!followUp,
+      isDownloadable: messagesCount > 0,
+    };
+
+    ctx.body = bodyData(data);
   } catch (e) {
     ctx.body = bodyError(e.message);
   }

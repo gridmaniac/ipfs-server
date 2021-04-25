@@ -113,13 +113,3 @@ module.exports.GetProfile = async (ctx) => {
     ctx.body = bodyError(e.message);
   }
 };
-
-module.exports.GetInvestorById = async (ctx) => {
-  try {
-    const { id } = ctx.request.params;
-    const investor = await User.findOne({ _id: id });
-    ctx.body = bodyData(investor);
-  } catch (e) {
-    ctx.body = bodyError(e.message);
-  }
-};
